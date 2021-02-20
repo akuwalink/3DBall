@@ -1,3 +1,10 @@
 package com.akuwalink.ball.logic.model
 
-data class User(var name:String,var pass:String, var star:Int,var now:Int)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class User(var name:String,var pass:String, var star:Int,var now:Int){
+    @PrimaryKey(autoGenerate = true)
+    var id:Long=0
+}

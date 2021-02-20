@@ -1,9 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView android:text="test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+    <LinearLayout android:id="@+id/main_showball"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/main_menu"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <com.akuwalink.ball.ui.mainview.CircleView
+                android:layout_width="80dp"
+                android:id="@+id/main_head"
+                app:background="@drawable/main_headimage"
+                app:edge_color="#ff0000"
+                android:padding="10dp"
+                android:layout_height="80dp"/>
+
+            <Button android:id="@+id/main_name"
+                android:text="akuwalink"
+                android:clickable="false"
+                android:alpha="0"
+                android:background="@drawable/main_head_images"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+            <Button android:id="@+id/main_stat"
+                android:text="0"
+                android:alpha="0"
+                android:clickable="false"
+                android:background="@drawable/main_head_images"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+            <Button
+                android:id="@+id/main_now"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:alpha="0"
+                android:clickable="false"
+                android:background="@drawable/main_head_images"
+                android:text="0"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="9"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_weight="2"
+                android:layout_height="0dp"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:layout_weight="8">
+
+                <Button android:id="@+id/main_start"
+                    android:text="开始游戏"
+                    android:background="@drawable/main_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+                <Button android:id="@+id/main_random"
+                    android:background="@drawable/main_button"
+                    android:text="随机模式"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+                <Button android:id="@+id/main_counttime"
+                    android:background="@drawable/main_button"
+                    android:text="计时模式"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+                <Button android:id="@+id/main_skin"
+                    android:background="@drawable/main_button"
+                    android:text="皮肤"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"></LinearLayout>
+    </LinearLayout>
+</FrameLayout>

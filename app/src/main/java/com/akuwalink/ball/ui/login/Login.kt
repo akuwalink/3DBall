@@ -12,11 +12,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.akuwalink.ball.MyApplication.Companion.now_login
 import com.akuwalink.ball.R
+import com.akuwalink.ball.logic.dao.DataBase
+import com.akuwalink.ball.logic.dao.UserDao
 import com.akuwalink.ball.logic.model.User
 import com.akuwalink.ball.ui.mainview.MainMenu
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_denglu.*
+import kotlin.concurrent.thread
 
 class Login:AppCompatActivity(),View.OnClickListener{
 
@@ -24,8 +28,7 @@ class Login:AppCompatActivity(),View.OnClickListener{
     var _width:Int=0
     var _height:Int=0
     lateinit var login:SharedPreferences
-    lateinit var user:SharedPreferences
-
+    lateinit var userDao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -38,17 +41,7 @@ class Login:AppCompatActivity(),View.OnClickListener{
         _height=point.y
         clickLoginListenInit()
         login=getSharedPreferences("login.txt", Context.MODE_PRIVATE)
-        user=getSharedPreferences("userdata", Context.MODE_PRIVATE)
-    }
-
-    fun loginInit(){
-        val name=login_name.text.toString()
-        if(login_remeber.isChecked&&name.equals("")){
-            val pass=login.getString("name","")
-            if(!pass.equals("")){
-                login_pass.setText(pass)
-            }
-        }
+        userDao=DataBase.getDataBase(this).userDao()
     }
 
     fun layoutInit(x:Int,y:Int){
@@ -114,12 +107,21 @@ class Login:AppCompatActivity(),View.OnClickListener{
                     register.visibility=View.INVISIBLE
                     layoutInit(_width,_height)
                     if(login.getBoolean("is_remember",false)){
-                        val name=login.getString("last_login","")
-                        val pass=login.getString(name,"")
-                        if((!name.equals(""))&&(!pass.equals(""))){
-                            login_name.setText(name)
-                            login_pass.setText(pass)
-                            login_remeber.isChecked=true
+                        thread {
+                            val name = login.getString("last_login", "")
+                            val user = userDao.loadUserForName(name!!)
+                            val pass: String
+                            if (user == null) {
+                                pass = ""
+                            } else {
+                                pass = user.pass
+                            }
+
+                            if ((!name.equals("")) && (!pass.equals(""))) {
+                                login_name.setText(name)
+                                login_pass.setText(pass)
+                                login_remeber.isChecked = true
+                            }
                         }
                     }
                 }else if(!register.isVisible){
@@ -139,18 +141,35 @@ class Login:AppCompatActivity(),View.OnClickListener{
             R.id.login_in->{
                 val name=login_name.text.toString()
                 val pass=login_pass.text.toString()
-                val old_pass=login.getString(name,"")
-                if((!name.equals(""))&&pass.equals(old_pass)){
-                    if(login_remeber.isChecked){
-                        val editor=login.edit()
-                        editor.putString("last_login",name)
-                        editor.putBoolean("is_remember",true)
-                        editor.apply()
+                thread {
+                    val user = userDao.loadUserForName(name)
+                    val old_pass: String
+                    if (user == null) {
+                        old_pass = ""
+                    } else {
+                        old_pass = user.pass
                     }
-                    val main_intent=Intent(this,MainMenu::class.java)
-                    startActivity(main_intent)
-                }else{
-                    Toast.makeText(this,"账号密码不正确",Toast.LENGTH_SHORT).show()
+                    if ((!name.equals("")) && pass.equals(old_pass)) {
+                        if (login_remeber.isChecked) {
+                            val editor = login.edit()
+                            editor.putString("last_login", name)
+                            editor.putBoolean("is_remember", true)
+                            editor.apply()
+                        }
+                        now_login=user
+
+                        val main_intent = Intent(this, MainMenu::class.java)
+                        startActivity(main_intent)
+
+                    } else {
+                        if (login_remeber.isChecked) {
+                            val editor = login.edit()
+                            editor.putString("last_login", name)
+                            editor.putBoolean("is_remember", true)
+                            editor.apply()
+                        }
+                        Toast.makeText(this, "账号密码不正确", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             R.id.login_register->{
@@ -163,15 +182,25 @@ class Login:AppCompatActivity(),View.OnClickListener{
                 val name=register_name.text.toString()
                 val pass=register_pass.text.toString()
                 val repass=register_repass.text.toString()
-                if((name.equals(""))||(name.length<3)||(pass.length<6)){
+
+                if((name.equals(""))||(name.length<3)||(pass.length<6)||(repass.length<6)){
                     register_cue.text="名字至少三个字符，密码六个"
+                }else if(!pass.equals(repass)){
+                    register_cue.text="两次输入的密码不符合"
                 }else if((name.length>=3)&&(pass.equals(repass))&&(pass.length>=6)){
                     val editor=login.edit()
-                    editor.putString(name,pass)
-                    editor.apply()
+                    val user=User(name,pass,0,0)
+
+                    thread {
+                        user.id=userDao.insertUser(user)
+                        editor.putLong(name,user.id)
+                        editor.apply()
+                    }
+
                     register_name.setText("")
                     register_pass.setText("")
                     register_repass.setText("")
+
                     register.visibility=View.INVISIBLE
                     denglu.visibility=View.VISIBLE
                 }
