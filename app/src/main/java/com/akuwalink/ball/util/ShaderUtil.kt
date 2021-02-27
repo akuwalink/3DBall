@@ -11,7 +11,7 @@ import java.lang.RuntimeException
 fun checkError(er:String){
     var error=GLES30.glGetError()
     while (error!=GLES30.GL_NO_ERROR){
-        Log.e("GLES30_ERROR",er+"error")
+        Log.e("GLES30_ERROR",er+"error"+error)
         throw RuntimeException(er+"glError"+error)
     }
 }
@@ -31,7 +31,7 @@ fun loadShader(type:Int,fname:String,r:Resources):Int{
         baos.close()
         isr.close()
         result=String(buff,Charsets.UTF_8)
-        result=result.replace("\\r\\n","\n")
+        result=result.replace("\r\n","\n")
 
     }catch (e:IOException){
         e.printStackTrace()
@@ -44,6 +44,7 @@ fun loadShader(type:Int,fname:String,r:Resources):Int{
         GLES30.glGetShaderiv(shader,GLES30.GL_COMPILE_STATUS,state,0)
         if(state[0]==0){
             Log.e("GLES30_ERROR","compile error")
+            Log.e("GLES30_ERROR",fname+GLES30.glGetShaderInfoLog(shader))
             GLES30.glDeleteShader(shader)
             shader=0
         }

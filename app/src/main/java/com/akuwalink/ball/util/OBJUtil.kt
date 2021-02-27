@@ -7,7 +7,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.ArrayList
 
-fun loadVertexOBJ(fname:String):FloatArray?{
+fun loadVOBJ(fname:String):FloatArray?{
     val ver_min=ArrayList<Float>()
     var vertex=ArrayList<Float>()
     var result:FloatArray?=null
@@ -15,7 +15,7 @@ fun loadVertexOBJ(fname:String):FloatArray?{
         val input=MyApplication.context.resources.assets.open(fname)
         val isr=InputStreamReader(input)
         val br=BufferedReader(isr)
-        var s:String=br.readLine()
+        var s:String?=br.readLine()
         while(s!=null){
             var ss=s.split(" ")
             if (ss[0].trim().equals("v")){
@@ -25,11 +25,12 @@ fun loadVertexOBJ(fname:String):FloatArray?{
             }else if(ss[0].trim().equals("f")){
                 for(i in 1..3){
                     var index=ss[i].split("/")[0].toInt()-1
-                    ver_min.add(vertex[index])
-                    ver_min.add(vertex[index+1])
-                    ver_min.add(vertex[index+2])
+                    ver_min.add(vertex[3*index])
+                    ver_min.add(vertex[3*index+1])
+                    ver_min.add(vertex[3*index+2])
                 }
             }
+            s=br.readLine()
         }
         input.close()
         isr.close()
@@ -42,7 +43,7 @@ fun loadVertexOBJ(fname:String):FloatArray?{
     return result
 }
 
-fun loadVTOBJ(fname:String):FloatArray?{
+fun loadTOBJ(fname:String):FloatArray?{
     val ver_min=ArrayList<Float>()
     var vertex_T=ArrayList<Float>()
     var result:FloatArray?=null
@@ -50,21 +51,20 @@ fun loadVTOBJ(fname:String):FloatArray?{
         val input=MyApplication.context.resources.assets.open(fname)
         val isr=InputStreamReader(input)
         val br=BufferedReader(isr)
-        var s:String=br.readLine()
+        var s:String?=br.readLine()
         while(s!=null){
             var ss=s.split(" ")
             if (ss[0].trim().equals("vt")){
                 vertex_T.add(ss[1].toFloat())
                 vertex_T.add(ss[2].toFloat())
-                vertex_T.add(ss[3].toFloat())
             }else if(ss[0].trim().equals("f")){
                 for(i in 1..3){
                     var index=ss[i].split("/")[1].toInt()-1
-                    ver_min.add(vertex_T[index])
-                    ver_min.add(vertex_T[index+1])
-                    ver_min.add(vertex_T[index+2])
+                    ver_min.add(vertex_T[2*index])
+                    ver_min.add(vertex_T[2*index+1])
                 }
             }
+            s=br.readLine()
         }
         input.close()
         isr.close()
@@ -85,7 +85,7 @@ fun loadVNOBJ(fname:String):FloatArray?{
         val input=MyApplication.context.resources.assets.open(fname)
         val isr=InputStreamReader(input)
         val br=BufferedReader(isr)
-        var s:String=br.readLine()
+        var s:String?=br.readLine()
         while(s!=null){
             var ss=s.split(" ")
             if (ss[0].trim().equals("vn")){
@@ -95,11 +95,12 @@ fun loadVNOBJ(fname:String):FloatArray?{
             }else if(ss[0].trim().equals("f")){
                 for(i in 1..3){
                     var index=ss[i].split("/")[2].toInt()-1
-                    ver_min.add(vertex_N[index])
-                    ver_min.add(vertex_N[index+1])
-                    ver_min.add(vertex_N[index+2])
+                    ver_min.add(vertex_N[3*index])
+                    ver_min.add(vertex_N[3*index+1])
+                    ver_min.add(vertex_N[3*index+2])
                 }
             }
+            s=br.readLine()
         }
         input.close()
         isr.close()

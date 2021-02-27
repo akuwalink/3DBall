@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -11,7 +14,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="5"
+        android:layout_weight="6"
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
@@ -19,17 +22,151 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"/>
-        <GridLayout
+        <LinearLayout
             android:layout_weight="8"
             android:layout_width="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
             android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:layout_height="0dp">
 
-        </GridLayout>
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_one"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/one"
+                    android:padding="20dp"
+                    app:background="@drawable/star"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_two"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/two"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_three"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/three"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_four"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/four"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_five"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/five"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_six"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/six"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_seven"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/seven"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_eight"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/eight"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_nine"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/nine"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_ten"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/ten"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_eleven"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/eleven"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+
+                <com.akuwalink.ball.ui.mainview.CircleView
+                    android:id="@+id/game_twelve"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/twelve"
+                    android:padding="20dp"
+                    app:background="@drawable/lock"
+                    app:edge_color="#00000000" />
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
 </LinearLayout>

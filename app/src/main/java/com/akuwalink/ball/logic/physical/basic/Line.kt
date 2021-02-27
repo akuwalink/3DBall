@@ -1,6 +1,6 @@
 package com.akuwalink.ball.logic.physical.basic
 
-class Line(var start:Point, var end:Point){
+class Line(var start:Vec3, var end:Vec3){
 
     fun getLength():Float{
         val p=end-start

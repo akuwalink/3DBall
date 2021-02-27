@@ -1,6 +1,7 @@
 package com.akuwalink.ball.ui.mainview
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Point
 import android.os.Bundle
@@ -82,7 +83,9 @@ class MainMenu:AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.main_start->{
-
+                Toast.makeText(this, "账号密码不正确", Toast.LENGTH_SHORT).show()
+                var intent= Intent(this,StartMap::class.java)
+                startActivity(intent)
             }
         }
 

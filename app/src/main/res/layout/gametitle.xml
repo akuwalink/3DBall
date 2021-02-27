@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:background="@drawable/game_backtitle"
+
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -10,7 +10,6 @@
         android:layout_height="match_parent">
 
         <Button android:id="@+id/game_view_back"
-            android:text="back"
             android:textColor="#ff0000"
             android:background="@drawable/game_view_back"
             android:layout_width="match_parent"
@@ -20,5 +19,12 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="8"
-        android:layout_height="match_parent"/>
+        android:gravity="center"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="450dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/game_backtitle" />
+    </LinearLayout>
 </LinearLayout>

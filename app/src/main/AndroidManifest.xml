@@ -21,10 +21,26 @@
         </activity>
         <activity android:name=".ui.login.Login"
             android:screenOrientation="locked">
+
+        </activity>
+        <activity android:name=".ui.mainview.StartMap"
+            android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.mainview.Skin"
+            android:screenOrientation="locked">
+        </activity>
+        <activity android:name=".ui.mainview.RandomMap"
+            android:screenOrientation="locked">
+        </activity>
+        <activity android:name=".ui.mainview.TimeMap"
+            android:screenOrientation="locked">
+        </activity>
+        <activity android:name=".ui.gameview.GameView"
+            android:screenOrientation="locked">
         </activity>
     </application>
 
