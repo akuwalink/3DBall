@@ -1,8 +1,11 @@
 package com.akuwalink.ball.logic.model
 
 import android.opengl.GLSurfaceView
+import com.akuwalink.ball.MyApplication
+import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.physical.basic.Vec3
 import com.akuwalink.ball.util.Matrix
+import com.akuwalink.ball.util.MusicUtil
 import com.akuwalink.ball.util.loadMapFile
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -12,6 +15,7 @@ class World(g:Vec3){
     var next_add_list=CopyOnWriteArrayList<Model>()
     var light=Light(Vec3(0f,0f,0f))
     var camera=Matrix()
+
 
     init {
         camera.setPresp(-1f,1f,-1f,1f,2f,10f)
@@ -24,6 +28,12 @@ class World(g:Vec3){
     fun removeModdel(model: Model){
         model_list.remove(model)
         if (model.move_flag==true) activity_list.remove(model)
+    }
+    @Synchronized
+    fun removeAll(){
+        model_list.clear()
+        activity_list.clear()
+        next_add_list.clear()
     }
     @Synchronized
     fun drawAll(drawMode:Int){

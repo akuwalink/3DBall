@@ -6,33 +6,34 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.SoundPool
 import com.akuwalink.ball.MyApplication
+import com.akuwalink.ball.R
 
-class MusicUtil(){
+class MusicUtil(context: Context){
+    var context=context
     lateinit var sp:SoundPool
     var volume:Float=0F
     var mp:MediaPlayer= MediaPlayer()
-    val am:AudioManager=MyApplication.context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    var max=am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) as Float
+    val am:AudioManager=context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    var max=am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).toFloat()
 
     lateinit var soundMap: HashMap<String,Int>
 
     fun soundInit(max:Int,audio:AudioAttributes){
         sp= with(SoundPool.Builder(),{
             setMaxStreams(max)
-            setAudioAttributes(audio)
+            //setAudioAttributes(audio)
             build()
         })
         soundMap= HashMap()
     }
 
     fun updataVolume(){
-        var now=am.getStreamVolume(AudioManager.STREAM_MUSIC) as Float
+        var now=am.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
         volume=now/max
     }
 
     fun addSound(sign:String,resId:Int){
-        soundMap.put(sign,resId)
-        sp?.load(MyApplication.context,resId,1)
+        soundMap.put(sign,sp.load(context, resId,1))
     }
 
     fun addSoundList(hashMap: HashMap<String,Int>){
@@ -68,12 +69,13 @@ class MusicUtil(){
 
     fun playSound(sign: String){
         if(soundMap[sign]==null) return
+        updataVolume()
         playSound(soundMap[sign]!!,volume,volume,1,0,1.0F)
     }
 
     fun startMedia(resId:Int){
         mp.reset()
-        mp= MediaPlayer.create(MyApplication.context,resId)
+        mp= MediaPlayer.create(context,resId)
         mp.start()
     }
 

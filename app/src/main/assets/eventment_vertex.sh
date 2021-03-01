@@ -1,8 +1,9 @@
 #version 300 es
 uniform mat4 finalMatrix;
-uniform mat4 model_Matrix;
+uniform mat4 modelMatrix;
 uniform vec3 lightLocation;
 uniform vec3 cameraLocation;
+uniform int lightMode;
 in vec3 inPosition;
 in vec3 inNormal;
 in vec2 inTex;
@@ -10,7 +11,7 @@ in vec4 inAmbient;
 in vec4 inDiffuse;
 in vec4 inSpecular;
 in float inShininess;
-in int lightMode;
+
 
 out vec4 outAmbient;
 out vec4 outDiffuse;

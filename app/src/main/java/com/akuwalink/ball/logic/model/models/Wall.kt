@@ -1,5 +1,6 @@
 package com.akuwalink.ball.logic.model.models
 
+import android.content.Context
 import android.opengl.GLES30
 import com.akuwalink.ball.MyApplication
 import com.akuwalink.ball.R
@@ -14,7 +15,8 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vein, normal){
+class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray,c:Context):Model(point, vein, normal,c){
+
     var vertexShader=0
     var fragShader=0
 
@@ -41,7 +43,6 @@ class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vei
     var veinBufferId=0
     var normalBufferId=0
 
-    var texId:Int=0
     var count:Int=0
     var vadId=0
 
@@ -88,8 +89,8 @@ class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vei
     }
 
     fun initShader(){
-        vertexShader= loadShader(GLES30.GL_VERTEX_SHADER,"eventment_vertex.sh", MyApplication.context.resources)
-        fragShader= loadShader(GLES30.GL_FRAGMENT_SHADER,"eventment_frag.sh", MyApplication.context.resources)
+        vertexShader= loadShader(GLES30.GL_VERTEX_SHADER,"eventment_vertex.sh", context.resources)
+        fragShader= loadShader(GLES30.GL_FRAGMENT_SHADER,"eventment_frag.sh", context.resources)
         program= createProgram(vertexShader,fragShader)
         positionHander= GLES30.glGetAttribLocation(program,"inPosition")
         veinHander= GLES30.glGetAttribLocation(program,"inTex")
@@ -98,10 +99,10 @@ class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vei
         diffuseHander= GLES30.glGetAttribLocation(program,"inDiffuse")
         specularHander= GLES30.glGetAttribLocation(program,"inSpecular")
         shininessHander= GLES30.glGetAttribLocation(program,"inShininess")
-        lightModeHander= GLES30.glGetAttribLocation(program,"lightMode")
 
+        lightModeHander= GLES30.glGetUniformLocation(program,"lightMode")
         finalMatrixHander=GLES30.glGetUniformLocation(program,"finalMatrix")
-        modelMatrixHander=GLES30.glGetUniformLocation(program,"model_Matrix")
+        modelMatrixHander=GLES30.glGetUniformLocation(program,"modelMatrix")
         cameraHander=GLES30.glGetUniformLocation(program,"cameraLocation")
         lightHander=GLES30.glGetUniformLocation(program,"lightLocation")
         /*modelTexHander=GLES30.glGetUniformLocation(program,"sTexture")
@@ -118,11 +119,7 @@ class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vei
     }
 
     fun initPoint(point:FloatArray, vein:FloatArray,normal:FloatArray){
-        var buffIds=IntArray(3)
-        GLES30.glGenBuffers(3,buffIds,0)
-        pointBufferId=buffIds[0]
-        veinBufferId=buffIds[1]
-        normalBufferId=buffIds[2]
+
 
         count=point.size/3
         val pbb=ByteBuffer.allocateDirect(point.size*4)
@@ -143,6 +140,11 @@ class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vei
         normalBuffer.put(normal).position(0)
 
 
+        var buffIds=IntArray(3)
+        GLES30.glGenBuffers(3,buffIds,0)
+        pointBufferId=buffIds[0]
+        veinBufferId=buffIds[1]
+        normalBufferId=buffIds[2]
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER,pointBufferId)
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER,point.size*4,pointBuffer,GLES30.GL_STATIC_DRAW)
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER,veinBufferId)
@@ -153,8 +155,8 @@ class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vei
         initVAO()
     }
 
-    fun setTex(resId:Int){
-        texId= TextureUtil.getTextureId(resId)
+    override fun setTex(resId:Int){
+        texId= TextureUtil.getTextureId(resId,context)
     }
 
     override fun drawself(light: Light, matrix: Matrix){
@@ -164,7 +166,7 @@ class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vei
         GLES30.glUniform3fv(cameraHander,1,matrix.cameraLocation,0)
         GLES30.glUniformMatrix4fv(modelMatrixHander,1,false,martix_self,0)
 
-        /*GLES30.glVertexAttribPointer(positionHander,3, GLES30.GL_FLOAT,false,3*4,pointBuffer)
+       /* GLES30.glVertexAttribPointer(positionHander,3, GLES30.GL_FLOAT,false,3*4,pointBuffer)
        GLES30.glVertexAttribPointer(veinHander,2, GLES30.GL_FLOAT,false,2*4,veinBuffer)
        GLES30.glVertexAttribPointer(normalHander,3, GLES30.GL_FLOAT,false,3*4,normalBuffer)
        GLES30.glVertexAttrib4fv(ambientHander,light.ambient.toFloatArray(),0)
@@ -176,14 +178,10 @@ class Wall(point:FloatArray, vein:FloatArray,normal:FloatArray):Model(point, vei
        GLES30.glEnableVertexAttribArray(positionHander)
        GLES30.glEnableVertexAttribArray(veinHander)
        GLES30.glEnableVertexAttribArray(normalHander)
-       GLES30.glBindVertexArray(vadId)
+        GLES30.glActiveTexture(GLES30.GL_TEXTURE0)
        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D,texId)
-       GLES30.glActiveTexture(GLES30.GL_TEXTURE1)
-       GLES30.glBindTexture(GLES30.GL_TEXTURE_2D,shadowId)
-       GLES30.glUniform1i(modelTexHander,0)
-       GLES30.glUniform1i(shadowTexHander,1)
-       GLES30.glDrawArrays(GLES30.GL_TRIANGLES,0,count)
-       GLES30.glBindVertexArray(0)*/
+
+       GLES30.glDrawArrays(GLES30.GL_TRIANGLES,0,count)*/
 
         GLES30.glVertexAttrib4fv(ambientHander,light.ambient.toFloatArray(),0)
         GLES30.glVertexAttrib4fv(diffuseHander,light.diffuse.toFloatArray(),0)

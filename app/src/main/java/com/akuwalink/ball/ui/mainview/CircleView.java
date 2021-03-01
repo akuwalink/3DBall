@@ -62,6 +62,10 @@ public class CircleView extends View {
         matrix=new Matrix();
     }
 
+    public void setResId(int res){
+        resId=res;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

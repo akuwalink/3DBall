@@ -13,6 +13,7 @@ fun checkError(er:String){
     while (error!=GLES30.GL_NO_ERROR){
         Log.e("GLES30_ERROR",er+"error"+error)
         throw RuntimeException(er+"glError"+error)
+        error=GLES30.glGetError()
     }
 }
 

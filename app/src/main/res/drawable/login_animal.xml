@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <item android:drawable="@drawable/ani_1"
+    android:duration="50"/>
+    <item android:drawable="@drawable/ani_2"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_3"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_4"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_5"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_6"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_7"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_8"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_9"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_10"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_11"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_12"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_13"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_14"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_15"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_16"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_17"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_18"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_19"
+        android:duration="50"/>
+    <item android:drawable="@drawable/ani_20"
+        android:duration="50"/>
+
+
+
+</animation-list>

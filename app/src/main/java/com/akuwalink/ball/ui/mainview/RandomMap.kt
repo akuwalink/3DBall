@@ -1,11 +1,56 @@
 package com.akuwalink.ball.ui.mainview
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.akuwalink.ball.R
+import com.akuwalink.ball.ui.gameview.GameView
+import kotlinx.android.synthetic.main.random.*
 
 class RandomMap :AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.random)
+        supportActionBar?.hide()
+        window.navigationBarColor= Color.TRANSPARENT
+        window.statusBarColor= Color.TRANSPARENT
+        var long=12
+        var width=12
+        var rub=10
+        random_sure.setOnClickListener {
+            long=random_long.text.toString().toInt()
+            width=random_width.text.toString().toInt()
+            rub=random_rub.text.toString().toInt()
+            if(long<=0||width<=0||rub<=0){
+                random_show_error.setText("输入的值必须大于0")
+            }else if(long>40||width>40||rub>100){
+                random_show_error.setText("长或者宽不得超过40，光滑度不得超过100")
+            }else{
+                var intent=Intent(this,GameView::class.java)
+                intent.putExtra("long",long)
+                intent.putExtra("width",width)
+                intent.putExtra("rub",rub)
+                intent.putExtra("mode",1)
+                startActivity(intent)
+            }
+        }
     }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus){
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        }
+
+    }
+
+
 }
 

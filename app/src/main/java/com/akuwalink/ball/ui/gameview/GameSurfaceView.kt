@@ -18,20 +18,41 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.MotionEvent
+import android.view.View
+import android.widget.LinearLayout
+import com.akuwalink.ball.MyApplication.Companion.now_user
+import com.akuwalink.ball.MyApplication.Companion.userDao
+import com.akuwalink.ball.MyApplication.Companion.win_flag
+import kotlinx.android.synthetic.main.game.view.*
+import java.lang.Exception
+import kotlin.concurrent.thread
 
 
-class GameSurfaceView (context: Context):GLSurfaceView(context){
+class GameSurfaceView (context: Context,map_number:Int,mode:Int,long:Int,width: Int,rub:Int,world: World):GLSurfaceView(context){
 
     var last_x=0f
     var last_y=0f
-    lateinit var world:World
+    lateinit var world: World
+    var flag=true
     init{
         this.setEGLContextClientVersion(3)
-        world=World(Vec3())
-
-        val renderer=GameRenderer(world)
+        this.world=world
+        val renderer=GameRenderer(world,map_number,mode,long,width,rub,context)
         this.setRenderer(renderer)
         this.renderMode=GLSurfaceView.RENDERMODE_CONTINUOUSLY
+        thread {
+            while(win_flag!=true){
+                if (world.light.vec3.x>15f) {
+                    flag=true
+                }
+                if(world.light.vec3.x<-15f){
+                    flag=false
+                }
+                if(flag) world.light.vec3.x-=0.2f
+                else world.light.vec3.x+=0.2f
+                Thread.sleep(20)
+            }
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -54,44 +75,101 @@ class GameSurfaceView (context: Context):GLSurfaceView(context){
         }
         return true
     }
-    class GameRenderer(world: World) :GLSurfaceView.Renderer{
+    class GameRenderer(world: World,map_number: Int,mode: Int,long: Int,width: Int,rub: Int,c: Context) :GLSurfaceView.Renderer{
+        var context=c
         var world:World
-        var now_width=0
-        var now_height=0
+        var map_number=1
+        var mode=mode
+        var scale=0
+        var long=long
+        var width=width
+        var rub=rub
         override fun onDrawFrame(gl: GL10?) {
-            GLES30.glClear(GLES30.GL_DEPTH_BUFFER_BIT)
-            GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT)
-            if(world.model_list.size>0) {
-                Collision.collisionStart(world)
+            try {
+                GLES30.glClear(GLES30.GL_DEPTH_BUFFER_BIT)
+                GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT)
+                if (world.model_list.size > 0) {
+                    Collision.collisionStart(world)
+                    val ax = scale - 2
+                    val ay = -scale + 2
+                    if (world.model_list[1].collision_model.center.x > ax && world.model_list[1].collision_model.center.y < ay) {
+                        win_flag = true
+                        now_user.star = map_number
+                        now_user.now = map_number
+                        thread {
+                            userDao.updataUser(now_user)
+                        }
+                    }
+                }
+                world.drawAll(1)
+            }catch (e:Exception){
+                e.printStackTrace()
             }
-            world.drawAll(1)
-            //Log.e("now x y",world.model_list[1].collision_model.center.x.toString()+" "+world.collision_model.center.y)
+            checkError("draw")
+
         }
         init {
             this.world=world
+            this.map_number=map_number
+            this.mode=mode
         }
         override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
             val ratio=(width/(height*1.0f))
             GLES30.glViewport(0,0,width,height)
-            now_width=width
-            now_height=height
-            world.camera.setPresp(-ratio*12,ratio*12,-1f*12,1f*12,28f,32f)
-            world.light= Light(Vec3(0f,0f,20f))
+
+            world.camera.setPresp(-ratio*scale,ratio*scale,-1f*scale,1f*scale,28f,32f)
+            world.light= Light(Vec3(15f,0f,20f))
             world.camera.setCamera(0f,0f,30f,0f,0f,0f,0f,1f,0f)
-            //checkError("onSurfaceChange")
+            checkError("gameSurfaceView")
         }
 
         override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
             GLES30.glClearColor(0.5f,0.5f,0.5f,0.5f)
             GLES30.glEnable(GLES30.GL_DEPTH_TEST)
-            var data=loadMapFile(MyApplication.context,"one.txt")
-            val list= loadModel(data!!)
-            for (i in list){
-                world.addModel(i)
+            var data:Array<IntArray>?=null
+            if(mode==0) {
+                var map = chooseMap(map_number)
+                data = loadMapFile(context, "localmap/$map")
+                if(data!=null)
+                scale=data.size/2
+            }else if(mode==1){
+                data= makeMap(long,width, intArrayOf(1,1))
+                if(long>width){
+                    scale=long
+                }else{
+                    scale=width
+                }
             }
+            if(data!=null){
+                val list= loadModel(data!!,context)
+                for (i in list){
+                    if(mode==0) {
+                        i.rub /= map_number
+                    }else if(mode==1){
+                        i.rub=0.1f/rub
+                    }
+                    world.addModel(i)
+                }
+            }
+            checkError("viewCreate")
 
         }
 
+        fun chooseMap(map_number: Int)=when(map_number){
+            1->"map_one.txt"
+            2->"map_two.txt"
+            3->"map_three.txt"
+            4->"map_four.txt"
+            5->"map_five.txt"
+            6->"map_six.txt"
+            7->"map_seven.txt"
+            8->"map_eight.txt"
+            9->"map_nine.txt"
+            10->"map_ten.txt"
+            11->"map_eleven.txt"
+            12->"map_twelve.txt"
+            else->"map_one.txt"
+        }
        /* fun initFRBUffers(){
             var tia=IntArray(1)
             GLES30.glGenFramebuffers(1,tia,0)

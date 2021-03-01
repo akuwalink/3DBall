@@ -4,7 +4,7 @@
     android:id="@+id/login_background"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/loginback_test"
+    android:background="@drawable/login_animal"
     android:layout_height="match_parent">
 
     <include layout="@layout/login_denglu"/>

@@ -1,5 +1,6 @@
 package com.akuwalink.ball.util
 
+import android.content.Context
 import com.akuwalink.ball.MyApplication
 import java.io.BufferedReader
 import java.io.IOException
@@ -7,12 +8,12 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.ArrayList
 
-fun loadVOBJ(fname:String):FloatArray?{
+fun loadVOBJ(fname:String,context: Context):FloatArray?{
     val ver_min=ArrayList<Float>()
     var vertex=ArrayList<Float>()
     var result:FloatArray?=null
     try {
-        val input=MyApplication.context.resources.assets.open(fname)
+        val input=context.resources.assets.open(fname)
         val isr=InputStreamReader(input)
         val br=BufferedReader(isr)
         var s:String?=br.readLine()
@@ -43,12 +44,12 @@ fun loadVOBJ(fname:String):FloatArray?{
     return result
 }
 
-fun loadTOBJ(fname:String):FloatArray?{
+fun loadTOBJ(fname:String,context: Context):FloatArray?{
     val ver_min=ArrayList<Float>()
     var vertex_T=ArrayList<Float>()
     var result:FloatArray?=null
     try {
-        val input=MyApplication.context.resources.assets.open(fname)
+        val input=context.resources.assets.open(fname)
         val isr=InputStreamReader(input)
         val br=BufferedReader(isr)
         var s:String?=br.readLine()
@@ -77,12 +78,12 @@ fun loadTOBJ(fname:String):FloatArray?{
     return result
 }
 
-fun loadVNOBJ(fname:String):FloatArray?{
+fun loadVNOBJ(fname:String,context: Context):FloatArray?{
     val ver_min=ArrayList<Float>()
     var vertex_N=ArrayList<Float>()
     var result:FloatArray?=null
     try {
-        val input=MyApplication.context.resources.assets.open(fname)
+        val input=context.resources.assets.open(fname)
         val isr=InputStreamReader(input)
         val br=BufferedReader(isr)
         var s:String?=br.readLine()

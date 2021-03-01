@@ -1,22 +1,27 @@
 package com.akuwalink.ball.logic.model
 
 
+import android.content.Context
 import android.opengl.Matrix
 import com.akuwalink.ball.logic.physical.basic.BasicModel
 import com.akuwalink.ball.logic.physical.basic.CollisionModels
 import com.akuwalink.ball.logic.physical.basic.Vec3
+import com.akuwalink.ball.logic.physical.event.Event
+import com.akuwalink.ball.util.TextureUtil
 
 
-open class Model(point:FloatArray, vein:FloatArray?,normal:FloatArray?){
+open class Model(point:FloatArray, vein:FloatArray?,normal:FloatArray?,context: Context){
     var martix_self:FloatArray= FloatArray(16)
+    var context=context
     var quality:Float=0F
-    var rough:Float=0F
+    var rough:Float=50F
     var frangible=false
     var move_flag=false
     lateinit var collision_model:BasicModel
     var speed=Vec3()
     var position=Vec3()
-    var rub=0.0005f
+    var rub=0.001f
+    var texId=0
 
     var collision_mode=CollisionModels.COLLISION_MODE_BOX
     var collision_model_temp: BasicModel= BasicModel()
@@ -35,9 +40,12 @@ open class Model(point:FloatArray, vein:FloatArray?,normal:FloatArray?){
 
     }
 
+    open fun setTex(resId:Int){
+        texId= TextureUtil.getTextureId(resId,context)
+    }
     open fun drawShadow(light:Light,matrix:com.akuwalink.ball.util.Matrix){}
 
-    open fun collsionEvent(){}
+    open fun collsionEvent(event: Event){}
 
     fun moveTemp(x: Float,y: Float,z: Float){
         copyCollisionModel()
@@ -66,7 +74,7 @@ open class Model(point:FloatArray, vein:FloatArray?,normal:FloatArray?){
         }
     }
     //旋转变换
-    fun rotate(angle:Float,x:Float,y:Float,z:Float){
+    open fun rotate(angle:Float,x:Float,y:Float,z:Float){
         Matrix.rotateM(martix_self,0,angle,x,y,z)
         if(collision_mode==CollisionModels.COLLISION_MODE_BOX) {
             var temp=collision_model.width

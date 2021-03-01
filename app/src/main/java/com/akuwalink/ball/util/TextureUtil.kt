@@ -1,5 +1,6 @@
 package com.akuwalink.ball.util
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.opengl.GLES30
@@ -15,7 +16,7 @@ object  TextureUtil{
     var wrap_s=GLES30.GL_CLAMP_TO_EDGE
     var wrap_t=GLES30.GL_CLAMP_TO_EDGE
 
-    fun getTextureId(vararg image:Int):IntArray{
+    fun getTextureId(vararg image:Int,context: Context):IntArray{
         val size=image.size
         var texture=IntArray(size)
         var result=IntArray(size)
@@ -31,7 +32,7 @@ object  TextureUtil{
             var input: InputStream? = null
             var bitmap: Bitmap? = null
             try {
-                input = MyApplication.context.resources.openRawResource(image[i])
+                input = context.resources.openRawResource(image[i])
                 bitmap = BitmapFactory.decodeStream(input)
                 GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0)
                 input.close()
@@ -46,7 +47,7 @@ object  TextureUtil{
         return result
     }
 
-    fun getTextureId(image:Int):Int{
+    fun getTextureId(image:Int,context: Context):Int{
         var texture=IntArray(1)
         var result=0
         GLES30.glGenTextures(1,texture,0)
@@ -59,7 +60,7 @@ object  TextureUtil{
         var input: InputStream? = null
         var bitmap: Bitmap? = null
         try {
-            input = MyApplication.context.resources.openRawResource(image)
+            input = context.resources.openRawResource(image)
             bitmap = BitmapFactory.decodeStream(input)
             GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0)
             input.close()

@@ -3,20 +3,29 @@ package com.akuwalink.ball.ui.mainview
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.akuwalink.ball.MyApplication.Companion.now_user
+import com.akuwalink.ball.MyApplication.Companion.userDao
 import com.akuwalink.ball.R
+import com.akuwalink.ball.logic.dao.DataBase
+import com.akuwalink.ball.logic.dao.UserDao
+import com.akuwalink.ball.logic.model.User
+import com.akuwalink.ball.ui.gameview.MainSurfaceView
 import kotlinx.android.synthetic.main.mainmenu.*
+import kotlin.concurrent.thread
 
 class MainMenu:AppCompatActivity(),View.OnClickListener{
 
     var _width=0
     var _height=0
     var appear_flag=false
+    lateinit var mainSurfaceView: MainSurfaceView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -29,8 +38,43 @@ class MainMenu:AppCompatActivity(),View.OnClickListener{
         display?.getRealSize(point)
         _width=point.x
         _height=point.y
+        supportActionBar?.hide()
+        window.navigationBarColor= Color.TRANSPARENT
+        window.statusBarColor= Color.TRANSPARENT
+
+        mainSurfaceView=MainSurfaceView(this)
+        main_showball.addView(mainSurfaceView)
+
+        setUser()
     }
 
+    override fun onPause() {
+        super.onPause()
+        mainSurfaceView.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainSurfaceView.onResume()
+    }
+    fun setUser(){
+        main_name.setText(now_user.name)
+        main_stat.setText("当前星数：" + now_user.star)
+        main_now.setText("当前关卡：" + now_user.now)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus){
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        }
+
+    }
     fun initLayout(){
         var margin=main_random.layoutParams as ViewGroup.MarginLayoutParams
         margin.setMargins(0,50,0,0)
@@ -83,8 +127,16 @@ class MainMenu:AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.main_start->{
-                Toast.makeText(this, "账号密码不正确", Toast.LENGTH_SHORT).show()
                 var intent= Intent(this,StartMap::class.java)
+                intent.putExtra("name",now_user.name)
+                startActivity(intent)
+            }
+            R.id.main_random->{
+                val intent=Intent(this,RandomMap::class.java)
+                startActivity(intent)
+            }
+            R.id.main_skin->{
+                val intent=Intent(this,Skin::class.java)
                 startActivity(intent)
             }
         }
