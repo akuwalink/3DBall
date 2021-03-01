@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView
 import android.util.Log
 import android.view.MotionEvent
 import com.akuwalink.ball.MyApplication.Companion.now_user
+import com.akuwalink.ball.MyApplication.Companion.userDao
 import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.model.Light
 import com.akuwalink.ball.logic.model.World
@@ -17,6 +18,7 @@ import com.akuwalink.ball.util.loadVNOBJ
 import com.akuwalink.ball.util.loadVOBJ
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
+import kotlin.concurrent.thread
 
 class SkinSurfaceView(context: Context) : GLSurfaceView(context){
     var last_x=0f
@@ -27,7 +29,18 @@ class SkinSurfaceView(context: Context) : GLSurfaceView(context){
         world= World(Vec3())
         val renderer= SkinSurfaceView.GameRenderer(world,context)
         this.setRenderer(renderer)
-        this.renderMode=GLSurfaceView.RENDERMODE_CONTINUOUSLY
+        this.renderMode=GLSurfaceView.RENDERMODE_WHEN_DIRTY
+        requestRender()
+        thread {
+            var old_tex= now_user.texId
+            while(true){
+                var now_tex=now_user.texId
+                if(now_tex!=old_tex){
+                    requestRender()
+                    userDao.updataUser(now_user)
+                }
+            }
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

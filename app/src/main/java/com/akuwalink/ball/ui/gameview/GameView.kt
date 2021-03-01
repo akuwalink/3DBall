@@ -18,6 +18,7 @@ import com.akuwalink.ball.MyApplication.Companion.win_flag
 import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.model.World
 import com.akuwalink.ball.logic.physical.basic.Vec3
+import com.akuwalink.ball.ui.mainview.RandomMap
 import com.akuwalink.ball.ui.mainview.StartMap
 import kotlinx.android.synthetic.main.game.*
 import kotlinx.android.synthetic.main.login_denglu.*
@@ -101,7 +102,11 @@ class GameView :AppCompatActivity(),View.OnClickListener{
                         if(mode==0){
                             var intent=Intent(activity,StartMap::class.java)
                             activity.startActivity(intent)
-                       }
+                       }else if(mode==1){
+                            var intent=Intent(activity, RandomMap::class.java)
+                            activity.startActivity(intent)
+                        }
+                        activity.finish()
                     }
                 }
                 alertDialog.show()

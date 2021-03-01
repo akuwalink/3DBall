@@ -16,7 +16,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.akuwalink.ball.MyApplication
+import com.akuwalink.ball.MyApplication.Companion.contextList
 import com.akuwalink.ball.MyApplication.Companion.now_user
+import com.akuwalink.ball.MyApplication.Companion.soundPlay
 import com.akuwalink.ball.MyApplication.Companion.userDao
 import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.dao.DataBase
@@ -50,7 +52,11 @@ class Login:AppCompatActivity(),View.OnClickListener{
         window.statusBarColor= Color.TRANSPARENT
         var login_ani=login_background.background as AnimationDrawable
         login_ani.start()
+
+        soundPlay.startMedia(R.raw.back_music)
+        soundPlay.mp.isLooping=true
     }
+
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -132,6 +138,7 @@ class Login:AppCompatActivity(),View.OnClickListener{
 
         when(v?.id){
             R.id.login_background->{
+                soundPlay.playSound("touch_button")
                 if(apppare_flag==false){
                     apppare_flag=true
                     logindenglu.visibility=View.VISIBLE
@@ -166,6 +173,7 @@ class Login:AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.login_close->{
+                soundPlay.playSound("touch_button")
                 if((apppare_flag!=false)&&(!register.isVisible)&&(!zhaohui.isVisible)){
                     logindenglu.visibility=View.INVISIBLE
                     apppare_flag=false
@@ -178,6 +186,7 @@ class Login:AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.login_in->{
+                soundPlay.playSound("touch_button")
                 val name=login_name.text.toString()
                 val pass=login_pass.text.toString()
                 thread {
@@ -196,7 +205,7 @@ class Login:AppCompatActivity(),View.OnClickListener{
                             editor.apply()
                         }
                         now_user=user
-
+                        contextList.add(this)
                         val main_intent = Intent(this, MainMenu::class.java)
                         main_intent.putExtra("name",name)
                         startActivity(main_intent)
@@ -214,11 +223,13 @@ class Login:AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.login_register->{
+                soundPlay.playSound("touch_button")
                 denglu.visibility=View.INVISIBLE
                 register.visibility=View.VISIBLE
                 register_cue.setText("")
             }
             R.id.register_sure->{
+                soundPlay.playSound("touch_button")
                 val name=register_name.text.toString()
                 val pass=register_pass.text.toString()
                 val repass=register_repass.text.toString()
@@ -246,11 +257,13 @@ class Login:AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.login_find_pass->{
+                soundPlay.playSound("touch_button")
                 denglu.visibility=View.INVISIBLE
                 register.visibility=View.INVISIBLE
                 zhaohui.visibility=View.VISIBLE
             }
             R.id.find_sure->{
+                soundPlay.playSound("touch_button")
                 val name=find_name.text.toString()
                 var pass=""
                 var find_flag=false
@@ -290,5 +303,10 @@ class Login:AppCompatActivity(),View.OnClickListener{
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        soundPlay.stopMedia()
     }
 }

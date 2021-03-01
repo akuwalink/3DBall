@@ -1,5 +1,6 @@
 package com.akuwalink.ball
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.media.AudioAttributes
@@ -14,6 +15,7 @@ class MyApplication :Application(){
         lateinit var now_user:User
         lateinit var soundPlay:MusicUtil
         lateinit var userDao: UserDao
+        var contextList=ArrayList<Activity>()
         var win_flag=false
     }
 
@@ -28,7 +30,9 @@ class MyApplication :Application(){
         super.onCreate()
         context =applicationContext
         soundPlay= MusicUtil(this)
+
         initMusic()
         userDao=DataBase.getDataBase(this).userDao()
+
     }
 }

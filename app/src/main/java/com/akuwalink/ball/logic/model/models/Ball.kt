@@ -2,6 +2,7 @@ package com.akuwalink.ball.logic.model.models
 
 import android.content.Context
 import android.opengl.GLES30
+import android.opengl.Matrix
 import com.akuwalink.ball.MyApplication
 import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.model.Light
@@ -107,10 +108,6 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
 
     }
 
-    override fun rotate(angle:Float,x:Float,y:Float,z:Float){
-        android.opengl.Matrix.rotateM(martix_self,0,angle,x,y,z)
-
-    }
     fun initPoint(point:FloatArray, vein:FloatArray,normal:FloatArray){
         var buffIds=IntArray(3)
         GLES30.glGenBuffers(3,buffIds,0)
@@ -151,7 +148,7 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
         texId=TextureUtil.getTextureId(resId,context)
     }
 
-    override fun drawself(light: Light, matrix: Matrix){
+    override fun drawself(light: Light, matrix:com.akuwalink.ball.util.Matrix ){
         GLES30.glUseProgram(program)
         checkError("draw")
         GLES30.glUniformMatrix4fv(finalMatrixHander,1,false,matrix.getFinalMatrix(martix_self),0)

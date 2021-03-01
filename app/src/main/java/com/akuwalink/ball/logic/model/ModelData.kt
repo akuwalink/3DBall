@@ -63,10 +63,11 @@ open class Model(point:FloatArray, vein:FloatArray?,normal:FloatArray?,context: 
 
     }
 
-
     //平行变换
     fun translate(x:Float,y:Float,z:Float){
-        Matrix.translateM(martix_self,0,x,y,z)
+        martix_self[12]+=x
+        martix_self[13]+=y
+        martix_self[14]+=z
         if(collision_mode==CollisionModels.COLLISION_MODE_BOX){
             collision_model.center.x+=x
             collision_model.center.y+=y

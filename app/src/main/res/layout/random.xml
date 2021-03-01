@@ -47,7 +47,7 @@
         <EditText android:id="@+id/random_rub"
         android:layout_width="400dp"
         android:maxLines="1"
-        android:text="10"
+        android:text="50"
         android:hint="请输入光滑度，越大越光滑"
         android:layout_height="60dp"/>
     </LinearLayout>

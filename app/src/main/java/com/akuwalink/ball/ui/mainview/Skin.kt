@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.akuwalink.ball.MyApplication
 import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.model.World
 import com.akuwalink.ball.logic.physical.basic.Vec3
@@ -36,6 +37,7 @@ class Skin :AppCompatActivity(){
         skin_image.adapter=adapter
 
         game_view_back.setOnClickListener {
+            MyApplication.soundPlay.playSound("touch_button")
             finish()
         }
     }

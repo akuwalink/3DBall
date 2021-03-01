@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.akuwalink.ball.MyApplication
 import com.akuwalink.ball.MyApplication.Companion.now_user
 import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.dao.DataBase
@@ -161,11 +162,13 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.game_view_back->{
+                MyApplication.soundPlay.playSound("touch_button")
                 val intent = Intent(this, MainMenu::class.java)
                 startActivity(intent)
                 finish()
             }
             R.id.game_one->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=0) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",1)
@@ -174,6 +177,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_two->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=1) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",2)
@@ -182,6 +186,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_three->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=2) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",3)
@@ -190,6 +195,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_four->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=3) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",4)
@@ -198,6 +204,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_five->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=4) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",5)
@@ -206,6 +213,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_six->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=5) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",6)
@@ -214,6 +222,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_seven->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=6) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",7)
@@ -222,6 +231,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_eight->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=7) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",8)
@@ -230,6 +240,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_nine->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=8) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",9)
@@ -238,6 +249,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_ten->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=9) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",10)
@@ -246,6 +258,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_eleven->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=10) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",11)
@@ -254,6 +267,7 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
                 }
             }
             R.id.game_twelve->{
+                MyApplication.soundPlay.playSound("touch_button")
                 if (user.now>=11) {
                     val intent = Intent(this, GameView::class.java)
                     intent.putExtra("now",12)

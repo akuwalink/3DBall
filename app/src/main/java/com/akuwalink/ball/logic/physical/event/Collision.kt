@@ -48,16 +48,27 @@ object Collision{
                 z = model.speed.z
             }
 
-            model.translate(x, y, z)
-            /*model.rotate((x/Math.PI*360).toFloat(),0f,0f,1f)
-            if(x!=0f||y!=0f) {
-                Log.e("test", model.collision_model.long.toString() + "  " + model.collision_model.width + "  ")
+            model.translate(x,y,z)
+            //model.rotate(5f,0f,0f,1f)
+
+            if(x!=0f&&y==0f) {
+                model.rotate((x / Math.PI * 360).toFloat(), 0f, 1f, 0f)
+            }else if(x==0f&&y!=0f){
+                model.rotate((y / Math.PI * 360).toFloat(), 1f, 0f, 0f)
+            }else if(x!=0f&&y!=0f){
+                var d=Math.pow((x*x+y*y+z*z).toDouble(),0.5)
+                model.rotate((d / Math.PI * 360).toFloat(), x, y, 0f)
             }
-            model.rotate((y/Math.PI*360).toFloat(),1f,0f,0f)*/
+
+            /*if(x!=0f||y!=0f) {
+                Log.e("test", model.collision_model.long.toString() + "  " + model.collision_model.width + "  ")
+            }*/
+
             updateSpeed(model)
 
         }
     }
+
 
     private fun collisionDetection(model: Model,modelList: CopyOnWriteArrayList<Model>, mode:Int):Event{
         var event=Event()

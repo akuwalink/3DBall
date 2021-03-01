@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.akuwalink.ball.MyApplication
 import com.akuwalink.ball.MyApplication.Companion.now_user
 import com.akuwalink.ball.R
 import kotlin.concurrent.thread
@@ -15,6 +16,7 @@ class TexAdapter (val texList:ArrayList<Tex>):RecyclerView.Adapter<TexAdapter.Vi
         val view=LayoutInflater.from(parent.context).inflate(R.layout.skin_recycler,parent,false)
         val viewHolder=ViewHolder(view)
         viewHolder.itemView.setOnClickListener {
+            MyApplication.soundPlay.playSound("touch_button")
             val position=viewHolder.adapterPosition
             val tex=texList[position]
             thread {

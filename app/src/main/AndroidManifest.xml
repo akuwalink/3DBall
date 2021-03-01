@@ -5,9 +5,8 @@
     <application
         android:allowBackup="true"
         android:name=".MyApplication"
-        android:icon="@mipmap/ic_launcher"
-
-        android:label="@string/app_name"
+        android:icon="@mipmap/app"
+        android:label="3D迷宫"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

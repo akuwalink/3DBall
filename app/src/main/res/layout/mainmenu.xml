@@ -45,13 +45,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
             <Button
-                android:id="@+id/main_now"
+            android:id="@+id/main_now"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:alpha="0"
+            android:clickable="false"
+            android:background="@drawable/main_head_images"
+            android:text="0"
+            android:textSize="20dp" />
+            <Button
+                android:id="@+id/main_back_to_login"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:alpha="0"
                 android:clickable="false"
                 android:background="@drawable/main_head_images"
-                android:text="0"
+                android:text="返回登陆"
                 android:textSize="20dp" />
         </LinearLayout>
 
@@ -82,14 +91,14 @@
                     android:text="随机模式"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"/>
-                <Button android:id="@+id/main_counttime"
-                    android:background="@drawable/main_button"
-                    android:text="计时模式"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
                 <Button android:id="@+id/main_skin"
                     android:background="@drawable/main_button"
                     android:text="皮肤"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+                <Button android:id="@+id/main_back"
+                    android:background="@drawable/main_button"
+                    android:text="退出"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"/>
             </LinearLayout>

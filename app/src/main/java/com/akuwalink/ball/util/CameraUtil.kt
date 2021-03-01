@@ -18,6 +18,7 @@ class Matrix(){
         cameraLocation[2]=cz
     }
 
+
     //透视投影
     fun setPresp(left:Float,right:Float,bottom:Float,top:Float,near:Float,far:Float){
         Matrix.frustumM(matrix,0,left,right,bottom,top,near,far)
