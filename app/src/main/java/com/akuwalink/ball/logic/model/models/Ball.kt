@@ -15,15 +15,20 @@ import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
 class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model(point, vein, normal,c){
-
+    /**点着色器和片元着色器的引用定义
+     */
     var vertexShader=0
     var fragShader=0
-
+    /**
+     * 最终变换矩阵引用，模型变换矩阵引用，相机位置引用，光线位置引用
+     */
     var finalMatrixHander=0
     var modelMatrixHander=0
     var cameraHander=0
     var lightHander=0
-
+    /**
+     * 着色程序引用，点位置，纹理，法向引用，环境光，镜面光，反射光引用，光线粗糙度，光线模式
+     */
     var program=0
     var positionHander=0
     var veinHander=0
@@ -34,14 +39,23 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
     var shininessHander=0
     var lightModeHander=0
 
+    /**
+     * 将导入到OpenGLes的buffer
+     */
     lateinit var pointBuffer:FloatBuffer
     lateinit var veinBuffer: FloatBuffer
     lateinit var normalBuffer: FloatBuffer
 
+    /**
+     * 各缓冲区Id
+     */
     var pointBufferId=0
     var veinBufferId=0
     var normalBufferId=0
 
+    /**
+     * 模型总点数，纹理id
+     */
     var count:Int=0
     var vadId=0
 
@@ -57,6 +71,9 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
     var vertexShader_s=0
     var fragShader_s=0*/
 
+    /**
+     * 初始化模型，着色器，加载模型数据，设置纹理ID
+     */
     init{
         ballInit()
         initShader()
@@ -64,10 +81,16 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
         setTex(R.drawable.ball_back_1)
     }
 
+    /**
+     * 调用父类modelInit进行初始化
+     */
     fun ballInit(){
         modelInit(10f,10f,false,true,CollisionModels.getRectangle(0f,0f,0f))
     }
 
+    /**
+     * 初始化模型缓冲区，绑定点，纹理和法向量
+     */
     fun initVAO(){
         var vaoIds=IntArray(1)
         GLES30.glGenVertexArrays(1,vaoIds,0)
@@ -88,6 +111,9 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
         GLES30.glBindVertexArray(0)
     }
 
+    /**
+     * 加载着色器文件，链接程序，获取着色器文件内的变量引用
+     */
     fun initShader(){
         vertexShader= loadShader(GLES30.GL_VERTEX_SHADER,"eventment_vertex.sh",context.resources)
         fragShader= loadShader(GLES30.GL_FRAGMENT_SHADER,"eventment_frag.sh", context.resources)
@@ -108,6 +134,12 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
 
     }
 
+    /**
+     * @param point 点的float数组
+     * @param vein 纹理数组
+     * @param normal 法向量数组
+     * 加载模型数据
+     */
     fun initPoint(point:FloatArray, vein:FloatArray,normal:FloatArray){
         var buffIds=IntArray(3)
         GLES30.glGenBuffers(3,buffIds,0)
@@ -144,10 +176,18 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
         initVAO()
     }
 
+    /**
+     * @param resId 模型的纹理id
+     * 加载自定义模型纹理
+     */
     override fun setTex(resId:Int){
         texId=TextureUtil.getTextureId(resId,context)
     }
 
+    /**
+     * @param light 光，获取光位置等一系列变量
+     * @param matrix 自定义matrix，从中获取最终变换矩阵
+     */
     override fun drawself(light: Light, matrix:com.akuwalink.ball.util.Matrix ){
         GLES30.glUseProgram(program)
         checkError("draw")
@@ -206,9 +246,13 @@ class Ball(point:FloatArray, vein:FloatArray,normal:FloatArray,c: Context):Model
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES,0,count)
     }*/
 
+    /**
+     * @param event 自定义事件
+     * 对碰撞进行处理
+     */
     override fun collsionEvent(event: Event) {
         MyApplication.soundPlay.playSound("collision")
-        //MyApplication.soundPlay.playSound("touch_button")
+
     }
 }
 

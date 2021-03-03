@@ -8,6 +8,10 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.ArrayList
 
+/**
+ * @param fname 模型文件名
+ * 加载顶点坐标
+ */
 fun loadVOBJ(fname:String,context: Context):FloatArray?{
     val ver_min=ArrayList<Float>()
     var vertex=ArrayList<Float>()
@@ -44,6 +48,10 @@ fun loadVOBJ(fname:String,context: Context):FloatArray?{
     return result
 }
 
+/**
+ * @param fname 模型文件名
+ * 加载纹理数据
+ */
 fun loadTOBJ(fname:String,context: Context):FloatArray?{
     val ver_min=ArrayList<Float>()
     var vertex_T=ArrayList<Float>()
@@ -78,6 +86,10 @@ fun loadTOBJ(fname:String,context: Context):FloatArray?{
     return result
 }
 
+/**
+ * @param fname 模型文件名
+ * 加载顶点法向量
+ */
 fun loadVNOBJ(fname:String,context: Context):FloatArray?{
     val ver_min=ArrayList<Float>()
     var vertex_N=ArrayList<Float>()

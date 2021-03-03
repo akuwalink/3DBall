@@ -16,6 +16,9 @@ object  TextureUtil{
     var wrap_s=GLES30.GL_CLAMP_TO_EDGE
     var wrap_t=GLES30.GL_CLAMP_TO_EDGE
 
+    /**
+     * 获取纹理数组
+     */
     fun getTextureId(vararg image:Int,context: Context):IntArray{
         val size=image.size
         var texture=IntArray(size)
@@ -47,6 +50,10 @@ object  TextureUtil{
         return result
     }
 
+    /**
+     * @param image 纹理图片id
+     * 获取纹理
+     */
     fun getTextureId(image:Int,context: Context):Int{
         var texture=IntArray(1)
         var result=0
@@ -75,6 +82,9 @@ object  TextureUtil{
         return result
     }
 
+    /**
+     * 重置纹理取样模型
+     */
     fun reset(){
         min=GLES30.GL_NEAREST
         mag=GLES30.GL_LINEAR

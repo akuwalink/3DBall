@@ -14,6 +14,11 @@ import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.collections.ArrayList
 
+/**
+ * @param context
+ * @param fname 地图名字
+ * 加载本地地图数据
+ */
 fun loadMapFile(context: Context,fname:String):Array<IntArray>?{
     var result:Array<IntArray>?=null
     var baos:ByteArrayOutputStream?=null
@@ -50,6 +55,10 @@ fun loadMapFile(context: Context,fname:String):Array<IntArray>?{
     return result
 }
 
+/**
+ * @param map_data 地图数据
+ * 根据地图数据加载模型
+ */
 fun loadModel(map_data:Array<IntArray>,context: Context):List<Model>{
     var list=CopyOnWriteArrayList<Model>()
     val ball_v=loadVOBJ("ball.obj",context)
@@ -134,9 +143,21 @@ fun loadModel(map_data:Array<IntArray>,context: Context):List<Model>{
         start_x=-scale_x
         start_y-=1
     }
+    var win=Wall(ground_v,ground_t,ground_vn,context)
+    win.setTex(R.drawable.win)
+    win.collision_model=CollisionModels.getRectangle(1f,1f,0f)
+    win.scale(1f,1f,0f)
+    win.translate(scale_x-1,-scale_y+1,0f)
+    list.add(win)
     return list
 }
 
+/**
+ * @param xx x方向格数
+ * @param yy y方向格数
+ * @param start 开始点
+ * 根据参数随机创建一个地图
+ */
 fun makeMap(xx:Int,yy:Int,start:IntArray):Array<IntArray>{
     var r= Random()
     var start_x=start[0]

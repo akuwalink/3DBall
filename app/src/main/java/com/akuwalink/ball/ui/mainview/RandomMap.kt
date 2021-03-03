@@ -28,8 +28,8 @@ class RandomMap :AppCompatActivity(){
             long=random_long.text.toString().toInt()
             width=random_width.text.toString().toInt()
             rub=random_rub.text.toString().toInt()
-            if(long<=0||width<=0||rub<=0){
-                random_show_error.setText("输入的值必须大于0")
+            if(long<=5||width<=5||rub<=20){
+                random_show_error.setText("长和宽必须大于5，光滑度必须大于20")
             }else if(long>40||width>40||rub>100){
                 random_show_error.setText("长或者宽不得超过40，光滑度不得超过100")
             }else{

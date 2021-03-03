@@ -16,8 +16,6 @@
         <LinearLayout
         android:orientation="vertical"
         android:gravity="center"
-
-        android:background="@drawable/win"
         android:layout_width="600dp"
         android:layout_height="400dp">
 

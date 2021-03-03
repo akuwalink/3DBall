@@ -8,6 +8,10 @@ import java.io.IOException
 import java.io.InputStream
 import java.lang.RuntimeException
 
+/**
+ * @param er 自定义名
+ * 检查OpenGL错误
+ */
 fun checkError(er:String){
     var error=GLES30.glGetError()
     while (error!=GLES30.GL_NO_ERROR){
@@ -17,6 +21,11 @@ fun checkError(er:String){
     }
 }
 
+/**
+ * @param type 着色器类型
+ * @param fname 着色器文件名
+ * 加载着色器
+ */
 fun loadShader(type:Int,fname:String,r:Resources):Int{
     var result=""
     var shader= GLES30.glCreateShader(type)
@@ -53,6 +62,11 @@ fun loadShader(type:Int,fname:String,r:Resources):Int{
     return shader
 }
 
+/**
+ * @param v_Shader 顶点着色器
+ * @param f_Shader 片元着色器
+ * 创建并链接绘制程序
+ */
 fun createProgram(v_Shader:Int,f_Shader:Int):Int{
     if ((v_Shader==0)||(f_Shader==0))return 0
 

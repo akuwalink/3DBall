@@ -12,6 +12,13 @@ import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.concurrent.thread
 
 object Collision{
+
+    /**
+     * @param world 碰撞世界
+     * @param mode 碰撞模式
+     *
+     * 开始进行碰撞
+     */
     @Synchronized
     fun collisionStart(world: World,mode:Int=10){
         for(model in world.activity_list){
@@ -69,7 +76,12 @@ object Collision{
         }
     }
 
-
+    /**
+     * @param model 运动模型
+     * @param modelList 模型列表
+     * @param mode 碰撞模式
+     * 进行物体碰撞检测
+     */
     private fun collisionDetection(model: Model,modelList: CopyOnWriteArrayList<Model>, mode:Int):Event{
         var event=Event()
         when(mode){
@@ -109,6 +121,11 @@ object Collision{
         return Event()
     }
 
+    /**
+     * @param model 运动模型
+     * @param list 模型列表
+     * 划分碰撞检测区域，减少计算量,返回新的碰撞列表
+     */
     private fun diviteModel(model:Model,list:List<Model>):CopyOnWriteArrayList<Model>{
         var now_list= CopyOnWriteArrayList<Model>()
         var x=model.collision_model.center.x
@@ -123,6 +140,12 @@ object Collision{
         return now_list
     }
 
+    /**
+     * @param model 碰撞模型
+     * @param anModel 被碰模型
+     * @param mode 碰撞轴
+     * 默认碰撞执行方法
+     */
     private fun defaultFun(model: Model,anModel: Model,mode:Int):Float{
         val ax=model.collision_model.long+anModel.collision_model.long
         val ay=model.collision_model.width+anModel.collision_model.width
@@ -160,6 +183,10 @@ object Collision{
         return result
     }
 
+    /**
+     * @param model 碰撞模型
+     * 对模型运动速度进行更新
+     */
     private fun updateSpeed(model: Model){
         if(model.speed.x<0){
             model.speed.x+=model.rub
