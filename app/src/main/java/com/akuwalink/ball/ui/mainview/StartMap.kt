@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.akuwalink.ball.MyApplication
+import com.akuwalink.ball.MyApplication.Companion.delectList
 import com.akuwalink.ball.MyApplication.Companion.now_user
 import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.dao.DataBase
@@ -157,6 +158,9 @@ class StartMap :AppCompatActivity(),View.OnClickListener{
     override fun onStart() {
         super.onStart()
         openMap(user)
+        for (i in delectList){
+            i.finish()
+        }
     }
 
     override fun onClick(v: View?) {

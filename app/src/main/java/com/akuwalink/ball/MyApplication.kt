@@ -16,7 +16,9 @@ class MyApplication :Application(){
         lateinit var soundPlay:MusicUtil
         lateinit var userDao: UserDao
         var contextList=ArrayList<Activity>()
+        var delectList=ArrayList<Activity>()
         var win_flag=false
+        var back_flag=false
     }
 
     fun initMusic(){

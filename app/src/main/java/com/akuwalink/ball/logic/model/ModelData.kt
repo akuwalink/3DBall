@@ -24,7 +24,7 @@ open class Model(point:FloatArray, vein:FloatArray?,normal:FloatArray?,context: 
     var move_flag=false
     lateinit var collision_model:BasicModel
     var speed=Vec3()
-    var rub=0.001f
+    var rub=0.003f
     var texId=0
 
     var collision_mode=CollisionModels.COLLISION_MODE_BOX

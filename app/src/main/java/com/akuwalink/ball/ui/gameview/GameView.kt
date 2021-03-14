@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Layout
+import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -14,6 +15,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.akuwalink.ball.MyApplication
+import com.akuwalink.ball.MyApplication.Companion.back_flag
+import com.akuwalink.ball.MyApplication.Companion.contextList
+import com.akuwalink.ball.MyApplication.Companion.delectList
 import com.akuwalink.ball.MyApplication.Companion.win_flag
 import com.akuwalink.ball.R
 import com.akuwalink.ball.logic.model.World
@@ -60,7 +64,6 @@ class GameView :AppCompatActivity(),View.OnClickListener{
         game_sure.setOnClickListener(this)
         game_show.addView(surfaceView)
 
-
     }
 
     override fun onClick(v: View?) {
@@ -72,7 +75,6 @@ class GameView :AppCompatActivity(),View.OnClickListener{
     }
 
    class GameAsync(activity: AppCompatActivity,linearLayout: LinearLayout,mode:Int): AsyncTask<Unit, Int, Boolean>(){
-        var flag=false
         lateinit var layout: LinearLayout
         var activity=activity
        var mode=mode
@@ -81,8 +83,7 @@ class GameView :AppCompatActivity(),View.OnClickListener{
         }
         override fun doInBackground(vararg params: Unit?): Boolean {
             while (true){
-                if(win_flag==true){
-                    flag=true
+                if(win_flag==true||back_flag==true){
                     publishProgress()
                     break
                     return true
@@ -90,15 +91,16 @@ class GameView :AppCompatActivity(),View.OnClickListener{
             }
             return true
         }
-
-        override fun onProgressUpdate(vararg values: Int?) {
-            if(flag==true){
+       override fun onProgressUpdate(vararg values: Int?) {
+            if(win_flag==true){
                 //layout.visibility=View.VISIBLE
                 var alertDialog=AlertDialog.Builder(activity).apply {
                     setTitle("闯关成功")
                     setMessage("恭喜")
                     setCancelable(false)
                     setPositiveButton("确认"){dialog, which ->
+                        delectList.add(activity)
+                        win_flag=false
                         if(mode==0){
                             var intent=Intent(activity,StartMap::class.java)
                             activity.startActivity(intent)
@@ -106,11 +108,31 @@ class GameView :AppCompatActivity(),View.OnClickListener{
                             var intent=Intent(activity, RandomMap::class.java)
                             activity.startActivity(intent)
                         }
-                        activity.finish()
                     }
                 }
                 alertDialog.show()
-                win_flag=false
+
+            }
+            if(back_flag==true){
+                //layout.visibility=View.VISIBLE
+                var alertDialog=AlertDialog.Builder(activity).apply {
+                    setTitle("提示")
+                    setMessage("是否退出游戏")
+                    setCancelable(false)
+                    setPositiveButton("确认"){dialog, which ->
+                        delectList.add(activity)
+                        back_flag=false
+                        if(mode==0){
+                            var intent=Intent(activity,StartMap::class.java)
+                            activity.startActivity(intent)
+                        }else if(mode==1){
+                            var intent=Intent(activity, RandomMap::class.java)
+                            activity.startActivity(intent)
+                        }
+                    }
+                }
+                alertDialog.show()
+
             }
         }
 
@@ -138,5 +160,14 @@ class GameView :AppCompatActivity(),View.OnClickListener{
     override fun onPause() {
         super.onPause()
         surfaceView.onPause()
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+        if(event?.keyCode== KeyEvent.KEYCODE_BACK){
+            back_flag=true
+            return true
+        }else{
+            return super.dispatchKeyEvent(event)
+        }
     }
 }

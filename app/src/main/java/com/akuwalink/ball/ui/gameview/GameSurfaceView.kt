@@ -17,9 +17,11 @@ import com.akuwalink.ball.util.*
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
+import com.akuwalink.ball.MyApplication.Companion.back_flag
 import com.akuwalink.ball.MyApplication.Companion.now_user
 import com.akuwalink.ball.MyApplication.Companion.userDao
 import com.akuwalink.ball.MyApplication.Companion.win_flag
@@ -55,6 +57,7 @@ class GameSurfaceView (context: Context,map_number:Int,mode:Int,long:Int,width: 
         }
     }
 
+
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if(event!=null&&world.model_list.size>0){
             var x=event.x
@@ -65,11 +68,12 @@ class GameSurfaceView (context: Context,map_number:Int,mode:Int,long:Int,width: 
                     last_y=y
                 }
                 MotionEvent.ACTION_MOVE->{
-                    var dx=x-last_x
-                    var dy=last_y-y
-                    world.model_list[1].speed.x+=dx/10000
-                    world.model_list[1].speed.y+=dy/10000
-
+                    if(world.model_list[1].speed.x<0.05&&world.model_list[1].speed.y<0.05) {
+                        var dx = x - last_x
+                        var dy = last_y - y
+                        world.model_list[1].speed.x += dx / 10000
+                        world.model_list[1].speed.y += dy / 10000
+                    }
                 }
             }
         }

@@ -6,11 +6,13 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.akuwalink.ball.MyApplication
 import com.akuwalink.ball.MyApplication.Companion.contextList
 import com.akuwalink.ball.MyApplication.Companion.now_user
 import com.akuwalink.ball.MyApplication.Companion.soundPlay
@@ -190,4 +192,11 @@ class MainMenu:AppCompatActivity(),View.OnClickListener{
 
     }
 
+    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+        if(event?.keyCode== KeyEvent.KEYCODE_BACK){
+            return true
+        }else{
+            return super.dispatchKeyEvent(event)
+        }
+    }
 }

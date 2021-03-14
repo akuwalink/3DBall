@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.akuwalink.ball.MyApplication
+import com.akuwalink.ball.MyApplication.Companion.delectList
 import com.akuwalink.ball.R
 import com.akuwalink.ball.ui.gameview.GameView
 import kotlinx.android.synthetic.main.random.*
@@ -43,6 +44,12 @@ class RandomMap :AppCompatActivity(){
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        for(i in delectList){
+            i.finish()
+        }
+    }
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus){
