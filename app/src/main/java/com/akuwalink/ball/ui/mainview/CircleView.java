@@ -31,6 +31,7 @@ public class CircleView extends View {
     public CircleView(Context context) {
         super(context);
         init();
+
     }
 
     public CircleView(Context context, @Nullable AttributeSet attrs) {
